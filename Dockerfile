@@ -5,9 +5,10 @@ ENV HOST_CPU_ARCH=$CPU_ARCH
 
 #Deps
 RUN apk add --no-cache --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing --update \
-    unzip tar xz wget alpine-sdk git libtool autoconf automake linux-headers musl-dev m4 \
-    build-base perl ca-certificates zlib-dev zlib-static openssl-dev openssl-libs-static crypto++-dev crypto++-static \
-    c-ares-dev c-ares-static sqlite-dev sqlite-static libsodium-dev libsodium-static curl-dev curl-static
+    unzip tar xz wget alpine-sdk git libtool autoconf automake linux-headers musl-dev m4 build-base perl ca-certificates \
+    zlib-dev zlib-static openssl-dev openssl-libs-static crypto++-dev crypto++-static brotli-dev brotli-static \
+    c-ares-dev c-ares-static sqlite-dev sqlite-static libsodium-dev libsodium-static curl-dev curl-static nghttp2-dev nghttp2-static
+
 
 #RUN wget -q https://github.com/upx/upx/releases/download/v3.96/upx-3.96-${HOST_CPU_ARCH}_linux.tar.xz && \
 #    tar xf upx*.tar.xz && cd upx*/ && chmod a+x upx && mv upx /usr/local/bin/
