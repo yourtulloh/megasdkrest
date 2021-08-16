@@ -14,7 +14,6 @@ jobs:
           - linux/arm64/v8
           - linux/arm/v7
           - linux/arm/v6
-          - linux/s390x
           - linux/ppc64le
         include:
           - arch: linux/amd64
@@ -27,8 +26,6 @@ jobs:
             dist: armv7
           - arch: linux/arm/v6
             dist: armv6
-          - arch: linux/s390x
-            dist: s390x
           - arch: linux/ppc64le
             dist: ppc64le
     steps:
@@ -80,7 +77,6 @@ jobs:
           cp artifacts/megasdkrest-i386/* outputs/
           cp artifacts/megasdkrest-armv7/* outputs/
           cp artifacts/megasdkrest-armv6/* outputs/
-          cp artifacts/megasdkrest-s390x/* outputs/
           cp artifacts/megasdkrest-ppc64le/* outputs/
       - name: Create Release
         uses: softprops/action-gh-release@v1
