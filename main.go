@@ -51,7 +51,7 @@ func callback(c *cli.Context) error {
 	if !debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	if uds == "" {
+	if uds != "" {
 	log.Printf("Serving on %s\n", uds)
 	r := gin.Default()
 	setupRoutes(r)
