@@ -51,15 +51,13 @@ func callback(c *cli.Context) error {
 	if !debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	r := gin.Default()
+	setupRoutes(r)
 	if uds != "" {
-	log.Printf("Serving on %s\n", uds)
-	r := gin.Default()
-	setupRoutes(r)
-	return r.Run(fmt.Sprintf("%s", uds))
+	log.Printf("Listening and serving HTTP on unix:/%s\n", uds)
+	return r.RunUnix(fmt.Sprintf("%s", uds))
 	} else {
-	log.Printf("Serving on %s:%s\n", ip, port)
-	r := gin.Default()
-	setupRoutes(r)
+	log.Printf("Serving on TCP %s:%s\n", ip, port)
 	return r.Run(fmt.Sprintf("%s:%s", ip, port))
 	}
 }
