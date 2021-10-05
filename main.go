@@ -10,6 +10,14 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+func fileExists(filename string) bool {
+    info, err := os.Stat(filename)
+    if os.IsNotExist(err) {
+        return false
+    }
+    return !info.IsDir()
+}
+
 func setupRoutes(router *gin.Engine) {
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -54,11 +62,18 @@ func callback(c *cli.Context) error {
 	r := gin.Default()
 	setupRoutes(r)
 	if uds != "" {
-	log.Printf("Listening and serving HTTP on unix:/%s\n", uds)
-	return r.RunUnix(fmt.Sprintf("%s", uds))
+		if fileExists(fmt.Sprintf("%s", uds)) {
+			log.Printf("Unix Socket/File unix:/%s already exists, Trying to remove it\n", uds)
+			e := os.Remove(fmt.Sprintf("%s", uds))
+			if e != nil {
+				log.Fatal(e)
+			}
+		}
+		log.Printf("Listening and serving HTTP on unix:/%s\n", uds)
+		return r.RunUnix(fmt.Sprintf("%s", uds))
 	} else {
-	log.Printf("Serving on TCP %s:%s\n", ip, port)
-	return r.Run(fmt.Sprintf("%s:%s", ip, port))
+		log.Printf("Serving on TCP %s:%s\n", ip, port)
+		return r.Run(fmt.Sprintf("%s:%s", ip, port))
 	}
 }
 
